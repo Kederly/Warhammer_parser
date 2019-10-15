@@ -5,16 +5,10 @@ from bs4 import BeautifulSoup
 import csv
 import os
 
-os.remove('OrkShop.csv')
-
-with open('OrkShop.csv', 'w') as file:
-    writer = csv.writer(file)
-    writer.writerow(('side', 'race', 'title', 'price', 'status', 'url'))
-
-url_pars = 'https://goodork.ru/categories/adeptus-astartes-blood-angels'
+url_pars = 'https://goodork.ru/categories/adeptus-astartes-dark-angels'
 start_url = url_pars + '?page=1'
 base = url_pars + '?page='
-name = 'Blood Angels'
+name = 'Dark Angels'
 side1 = 'Imperium'
 
 def get_html(url):
@@ -94,4 +88,4 @@ def main():
 if __name__ == '__main__':
     main()
 
-os.system("python3.7 /home/kederly/PycharmProjects/Warhammer_parser/OrkShop_parser/Dark_Angels.py")
+os.system("python3.7 /home/kederly/PycharmProjects/Warhammer_parser/OrkShop_parser/Deathwatch.py")
