@@ -3,7 +3,6 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 import os
-from multiprocessing import Pool
 
 os.remove('OrkShop.csv')
 
