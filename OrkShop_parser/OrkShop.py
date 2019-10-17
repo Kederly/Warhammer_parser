@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 import os
+from multiprocessing import Pool
 
 os.remove('OrkShop.csv')
 
@@ -73,6 +74,7 @@ def write_csv(data):
                          data['price'],
                          data['status'],
                          data['url']))
+
 
 def main():
     url = 'https://goodork.ru/categories/warhammer-40000'
