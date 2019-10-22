@@ -82,7 +82,6 @@ def main():
 
     for link in all_links:
         html = get_html(link)
-        get_total_pages(html)
 
         total_pages = get_total_pages(html)
 
