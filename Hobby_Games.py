@@ -23,7 +23,7 @@ def get_total_pages(html):
     return int(total_pages)
 
 def write_csv(data):
-    with open('OrkShop.csv', 'a') as f:
+    with open('Hobby_Games.csv', 'a') as f:
         writer = csv.writer(f)
         writer.writerow((data['title'],
                          data['price'],
@@ -33,38 +33,34 @@ def write_csv(data):
 def get_page_data(html):
     soup = BeautifulSoup(html, 'lxml')
 
-    ads = soup.find('div', class_='row products-view products-view-tile productview-wow').find_all('div', class_='products-view-block')
-
+    ads = soup.find('div', class_='row products-container').find_all('div', class_='col-lg-4 col-md-6 col-sm-6 col-xs-12')
     for ad in ads:
-
         try:
-            title = ad.find('div', class_='products-view-name products-view-name-default').find('a').get('title')
+            title = ad.find('div', class_='name-desc').find('a').get('title')
         except:
             title = ''
         try:
-            price = ad.find('div', class_='price').find('div', class_='price-number').text.strip()
+            price = ad.find('div', class_='buttons product-cart').find('span', class_='price').text.strip()
         except:
             price = ''
         try:
-            status = ad.find('div', class_='products-view-buttons').find('a', class_='btn btn-big btn-buy products-view-buy').text.strip()
-            if status == 'В корзину':
+            status = ad.find('div', class_='buttons product-cart').find('span', class_='in-cart text hidden').text.strip()
+            if status == 'Оформить заказ':
                 status = 'В наличии'
             else:
                 status = 'Нет в наличии'
         except:
             status = 'Нет в наличии'
         try:
-            url = ad.find('figure', class_='products-view-pictures').find('a', class_='products-view-picture-link products-view-shadow-hover').get('href')
+            url = ad.find('div', class_='name-desc').find('a', class_='name').get('href')
         except:
             url = ''
-        race = name
-        side = side1
-        data = {'side': side,
-            'race': race,
+        data = {
             'title': title,
             'price': price,
             'status': status,
-            'url': url}
+            'url': url
+        }
         write_csv(data)
 
 def main():
