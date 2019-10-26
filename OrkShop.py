@@ -8,7 +8,7 @@ os.remove('OrkShop.csv')
 
 with open('OrkShop.csv', 'w') as file:
     writer = csv.writer(file)
-    writer.writerow(('title', 'price', 'status', 'url'))
+    writer.writerow(('fraction', 'title', 'price', 'status', 'url'))
 
 def get_html(url):
     r = requests.get(url)
@@ -37,6 +37,12 @@ def get_total_pages(html):
 
 def get_page_data(html):
     soup = BeautifulSoup(html, 'lxml')
+
+    try:
+        fraction = soup.find('div', class_= 'col-xs-9 col-p-v site-body-main').find('h1', class_='catalog-title page-title').text.strip()
+    except:
+        fraction = ''
+
     ads = soup.find('div', class_='row products-view products-view-tile productview-wow').find_all('div', class_='products-view-block')
     for ad in ads:
         try:
@@ -60,7 +66,8 @@ def get_page_data(html):
         except:
             url = ''
 
-        data = {'title': title,
+        data = {'fraction': fraction,
+            'title': title,
             'price': price,
             'status': status,
             'url': url}
@@ -69,7 +76,8 @@ def get_page_data(html):
 def write_csv(data):
     with open('OrkShop.csv', 'a') as f:
         writer = csv.writer(f)
-        writer.writerow((data['title'],
+        writer.writerow((data['fraction'],
+                         data['title'],
                          data['price'],
                          data['status'],
                          data['url']))
