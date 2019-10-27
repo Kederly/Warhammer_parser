@@ -16,16 +16,16 @@ def get_html(url):
 
 def get_all_links(html):
     soup = BeautifulSoup(html, 'lxml')
-    tds = soup.find('div', class_='col-description').find_all('p', style='text-align: left;')
+    tds = soup.find('p', style='text-align: left;').find_all('a')
     links = []
     for td in tds:
-        a = td.find('a').get('href')
+        a = td.href
         link = a
         links.append(link)
     return links
 
 def get_total_pages(html):
-    soup = BeautifulSoup(html, 'html5lib')
+    soup = BeautifulSoup(html, 'lxml')
     pages = soup.find('ul', class_='pagination')
     if pages is None:
         total_pages = '1'
